@@ -17,10 +17,11 @@ docker run --net=host -d -e CONFIGPROXY_AUTH_TOKEN=$TOKEN \
 ```
 ```
 docker run --net=host -d -e CONFIGPROXY_AUTH_TOKEN=$TOKEN \
-           -v /var/run/docker.sock:/docker.sock \
-           jupyter/tmpnb python orchestrate.py --image='codeneuro/notebooks' \
-           --command="ipython notebook --NotebookApp.base_url={base_path} \
-           --ip=0.0.0.0 --port {port}"
+           -v /var/run/docker.sock:/docker.sock jupyter/tmpnb python orchestrate.py \
+           --image='codeneuro/notebooks' --command="/bin/bash -c 'source activate \
+           /opt/conda/envs/python2.7-env/ && thunder -n \
+           --notebook-opts='--NotebookApp.base_url={base_path} \
+           --ip=0.0.0.0 --port={port}''" --pool_size=25
 ```
 
 
