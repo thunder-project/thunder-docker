@@ -27,6 +27,7 @@ RUN conda install --yes numpy pandas scikit-learn scikit-image matplotlib scipy 
 # Thunder setup
 RUN apt-get install -y git python-pip ipython gcc
 RUN git clone https://github.com/thunder-project/thunder
+RUN source activate python2.7-env
 RUN pip install -r thunder/python/requirements.txt
 ENV THUNDER_ROOT $HOME/thunder
 ENV PATH $PATH:$THUNDER_ROOT/python/bin
