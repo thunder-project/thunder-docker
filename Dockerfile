@@ -21,7 +21,7 @@ ENV _JAVA_OPTIONS "-Xms512m -Xmx4g"
 
 # Install useful Python packages
 RUN apt-get install -y libxrender1 fonts-dejavu && apt-get clean
-RUN conda create --yes -q -n python2.7-env python=2.7 nose numpy pandas scikit-learn scikit-image matplotlib scipy seaborn sympy cython patsy statsmodels cloudpickle numba bokeh pillow ipython jsonschema
+RUN conda create --yes -q -n python2.7-env python=2.7 nose numpy pandas scikit-learn scikit-image matplotlib scipy seaborn sympy cython patsy statsmodels cloudpickle numba bokeh pillow ipython jsonschema boto
 ENV PATH $CONDA_DIR/bin:$PATH
 RUN conda install --yes numpy pandas scikit-learn scikit-image matplotlib scipy seaborn sympy cython patsy statsmodels cloudpickle numba bokeh pillow && conda clean -yt
 
@@ -34,7 +34,6 @@ ENV PATH $PATH:$THUNDER_ROOT/python/bin
 ENV PYTHONPATH $PYTHONPATH:$THUNDER_ROOT/python
 
 # Configure Boto for S3 access
-RUN printf '[Credentials]\naws_access_key_id = AKIAI7IS6BFJU36UCJHQ\naws_secret_access_key = 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\n' > ~/.boto
 RUN printf '[s3]\ncalling_format = boto.s3.connection.OrdinaryCallingFormat' >> ~/.boto
 
 RUN git clone https://github.com/CodeNeuro/neurofinder
