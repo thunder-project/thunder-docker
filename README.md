@@ -15,8 +15,9 @@ docker run --net=host -d -e CONFIGPROXY_AUTH_TOKEN=$TOKEN \
 
 docker run --net=host -d -e CONFIGPROXY_AUTH_TOKEN=$TOKEN -v /var/run/docker.sock:/docker.sock \
             jupyter/tmpnb python orchestrate.py \
-            --image='codeneuro/notebooks' --command="thunder -n --notebook-opts='--NotebookApp.base_url={base_path} \
-            --ip=0.0.0.0 --port {port}'" --pool_size=50
+            --image='codeneuro/notebooks' \
+            --command="thunder -n --notebook-opts='--NotebookApp.base_url={base_path} --ip=0.0.0.0 --port {port}'" \ 
+            --pool_size=50
 ```
 
 
