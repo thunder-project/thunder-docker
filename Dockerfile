@@ -30,6 +30,7 @@ RUN git clone https://github.com/thunder-project/thunder
 RUN pip install -r thunder/python/requirements.txt
 ENV THUNDER_ROOT $HOME/thunder
 ENV PATH $PATH:$THUNDER_ROOT/python/bin
+ENV PYTHONPATH $PYTHONPATH:$THUNDER_ROOT/python
 
 RUN git clone https://github.com/CodeNeuro/neurofinder
 ENV NEUROFINDER_ROOT $HOME/neurofinder
@@ -39,13 +40,16 @@ RUN mkdir $HOME/notebooks
 RUN mkdir $HOME/notebooks/community
 
 # Do the symlinking
+RUN mkdir $HOME/notebooks/neurofinder
+RUN mkdir $HOME/notebooks/tutorials
 RUN echo "In directory: " `pwd`
-RUN ln -s $(readlink -f $THUNDER_ROOT/python/doc/tutorials/) $HOME/notebooks/tutorials
-RUN ln -s $(readlink -f $NEUROFINDER_ROOT/notebooks) $HOME/notebooks/neurofinder
-RUN ls
+RUN ln -s $(readlink -f $THUNDER_ROOT/python/doc/tutorials/*.ipynb) $HOME/notebooks/tutorials/
+RUN ln -s $(readlink -f $NEUROFINDER_ROOT/notebooks/*.ipynb) $HOME/notebooks/neurofinder/
 
 # Set up the kernelspec
 RUN /opt/conda/envs/python2.7-env/bin/ipython kernelspec install-self
+
+WORKDIR $HOME/notebooks
 
 CMD ipython notebook
 
