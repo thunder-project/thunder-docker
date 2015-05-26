@@ -13,9 +13,9 @@ RUN apt-get install -y default-jre
 ENV JAVA_HOME $(readlink -f /usr/bin/java | sed "s:bin/java::") 
 
 # Spark setup 
-RUN wget http://mirror.reverse.net/pub/apache/spark/spark-1.3.1/spark-1.3.1-bin-hadoop2.6.tgz 
-RUN tar -xzf spark-1.3.1-bin-hadoop2.6.tgz
-ENV SPARK_HOME `pwd`/spark-1.3.1-bin-hadoop2.6
+RUN wget http://d3kbcqa49mib13.cloudfront.net/spark-1.3.1-bin-hadoop1.tgz 
+RUN tar -xzf spark-1.3.1-bin-hadoop1.tgz
+ENV SPARK_HOME `pwd`/spark-1.3.1-bin-hadoop1
 ENV PATH $PATH:$SPARK_HOME/bin
 
 # Install useful Python packages
