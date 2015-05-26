@@ -33,6 +33,10 @@ ENV THUNDER_ROOT $HOME/thunder
 ENV PATH $PATH:$THUNDER_ROOT/python/bin
 ENV PYTHONPATH $PYTHONPATH:$THUNDER_ROOT/python
 
+# Configure Boto for S3 access
+RUN printf '[Credentials]\naws_access_key_id = AKIAI7IS6BFJU36UCJHQ\naws_secret_access_key = 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\n' > ~/.boto
+RUN printf '[s3]\ncalling_format = boto.s3.connection.OrdinaryCallingFormat' >> ~/.boto
+
 RUN git clone https://github.com/CodeNeuro/neurofinder
 ENV NEUROFINDER_ROOT $HOME/neurofinder
 
