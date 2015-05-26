@@ -1,2 +1,3 @@
-image: 
-    docker build -t codeneuro/notebooks .	
+
+image:
+	docker build -t codeneuro/notebooks .
