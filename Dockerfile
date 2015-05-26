@@ -6,29 +6,29 @@ USER root
 
 RUN apt-get update
 
-RUN export HOME=$(pwd)
+ENV SHELL /bin/bash
 
 # Java setup
 RUN apt-get install -y default-jre
-ENV JAVA_HOME $(readlink -f /usr/bin/java | sed "s:bin/java::") 
 
 # Spark setup 
 RUN wget http://d3kbcqa49mib13.cloudfront.net/spark-1.3.1-bin-hadoop1.tgz 
 RUN tar -xzf spark-1.3.1-bin-hadoop1.tgz
-ENV SPARK_HOME `pwd`/spark-1.3.1-bin-hadoop1
+ENV SPARK_HOME $HOME/spark-1.3.1-bin-hadoop1
 ENV PATH $PATH:$SPARK_HOME/bin
+RUN sed 's/log4j.rootCategory=INFO/log4j.rootCategory=ERROR/g' $SPARK_HOME/conf/log4j.properties.template > $SPARK_HOME/conf/log4j.properties
+ENV _JAVA_OPTIONS "-Xms512m -Xmx4g" 
 
 # Install useful Python packages
 RUN apt-get install -y libxrender1 fonts-dejavu && apt-get clean
-RUN conda create --yes -q -n python2.7-env python=2.7 nose numpy pandas scikit-learn scikit-image matplotlib scipy seaborn sympy cython patsy statsmodels cloudpickle numba bokeh pillow ipython
+RUN conda create --yes -q -n python2.7-env python=2.7 nose numpy pandas scikit-learn scikit-image matplotlib scipy seaborn sympy cython patsy statsmodels cloudpickle numba bokeh pillow ipython jsonschema
 ENV PATH $CONDA_DIR/bin:$PATH
 RUN conda install --yes numpy pandas scikit-learn scikit-image matplotlib scipy seaborn sympy cython patsy statsmodels cloudpickle numba bokeh pillow && conda clean -yt
 
 # Thunder setup
 RUN apt-get install -y git python-pip ipython gcc
 RUN git clone https://github.com/thunder-project/thunder
-RUN source activate python2.7-env
-RUN pip install -r thunder/python/requirements.txt
+RUN /bin/bash -c "source activate /opt/conda/envs/python2.7-env/ && pip install -r thunder/python/requirements.txt"
 ENV THUNDER_ROOT $HOME/thunder
 ENV PATH $PATH:$THUNDER_ROOT/python/bin
 ENV PYTHONPATH $PYTHONPATH:$THUNDER_ROOT/python
